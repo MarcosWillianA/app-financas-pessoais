@@ -62,7 +62,7 @@ class Despesa extends Orcamento {
         return {
             tipo: this.tipo,
             quantia: this.quantia
-        }
+        };
     }
 }
 
@@ -76,8 +76,8 @@ botaoRegistrarReceita.addEventListener('click', () => {
 })
 
 botaoRegistrarDespesa.addEventListener('click', () => {
-    console.log('Clicou na despesa!');
-    let totalDespesa = despesa.registrarDespesa();
+    let totalDespesa = despesa.registrarDespesa().quantia;
     balancoDespesa.innerHTML = totalDespesa;
+    descricaoDespesa.value = '';
     despesaQuantia.value = '';
 })
