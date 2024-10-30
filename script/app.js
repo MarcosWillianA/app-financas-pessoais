@@ -34,29 +34,47 @@ class Receita extends Orcamento {
             return 0;
         }
         this.quantia += novoValor;
+        this.salvarNoLocalStorage();
         return this.quantia;
     }
 
     limparReceita() {
         this.quantia = 0;
+        this.salvarNoLocalStorage();
+    }
+
+    salvarNoLocalStorage() {
+        localStorage.setItem('receita', this.quantia);
     }
 }
 
 class Despesa extends Orcamento {
     constructor() {
         super(0);
-        this.lista = []; // Inicializa uma lista para as despesas
+        this.lista = []; 
     }
 
     registrarDespesa(tipo, valor) {
-        this.quantia += valor; // Soma ao total
-        this.lista.push({ tipo, valor }); // Adiciona a despesa à lista
+        this.quantia += valor;  
+        this.lista.push({ tipo, valor });
+        this.salvarNoLocalStorage();
         return { tipo, valor };
     }
 
     limparDespesa() {
         this.quantia = 0
         this.lista = [];
+        this.salvarNoLocalStorage();
+    }
+
+    salvarNoLocalStorage() {
+        localStorage.setItem('despesa', JSON.stringify(this.lista));
+    }
+
+    carregarDoLocalStorage() {
+        const despesasSalvas = JSON.parse(localStorage.getItem('despesa')) || [];
+        this.lista = despesasSalvas;
+        this.quantia = despesasSalvas.reduce((total, despesa) => total + despesa.valor, 0)
     }
 }
 
@@ -78,6 +96,7 @@ class Balanco {
 
 const receita = new Receita(0);
 const despesa = new Despesa();
+despesa.carregarDoLocalStorage();
 const balancoObj = new Balanco(receita.quantia, despesa.quantia);
 
 const atualizarBalanco = () => {
@@ -90,20 +109,30 @@ const atualizarTabela = (tipo, valor) => {
     const novaLinha = document.createElement('tr');
     const novoTipo = document.createElement('td');
     const novaQuantia = document.createElement('td');
-    const editarGasto = document.createElement('td');
     const excluirGasto = document.createElement('td');
 
     listaGastos.appendChild(novaLinha);
     novaLinha.appendChild(novoTipo);
     novaLinha.appendChild(novaQuantia);
-    novaLinha.appendChild(editarGasto);
     novaLinha.appendChild(excluirGasto);
 
     novoTipo.innerHTML = tipo;
     novaQuantia.innerHTML = `$${valor.toFixed(2)}`;
-    editarGasto.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
     excluirGasto.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+
+    excluirGasto.addEventListener('click', () => {
+        const valorDespesa = parseFloat(novaQuantia.innerHTML.replace('$', ''));
+        despesa.quantia -= valorDespesa;
+        balancoDespesa.innerHTML = despesa.quantia.toFixed(2); 
+        listaGastos.removeChild(novaLinha);
+        atualizarBalanco();
+        despesa.salvarNoLocalStorage();
+    }) 
 }
+
+despesa.lista.forEach(item => {
+    atualizarTabela(item.tipo, item.valor);
+});
 
 botaoRegistrarReceita.addEventListener('click', () => {
     let totalReceita = receita.registrarReceita();
@@ -140,4 +169,5 @@ botaoLimparTudo.addEventListener('click', () => {
     receitaQuantia.value = '';
     descricaoDespesa.value = '';
     despesaQuantia.value = '';
+    localStorage.clear();
 })

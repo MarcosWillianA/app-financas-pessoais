@@ -92,7 +92,7 @@ input {
 
 #lista-gastos tr {
     display: grid;
-    grid-template-columns: 4fr 2fr 1fr 1fr;
+    grid-template-columns: 4fr 2fr 1fr;
     width: 100%;
     border: 1px solid #e2e8f0;
 }
