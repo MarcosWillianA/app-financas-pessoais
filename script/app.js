@@ -8,6 +8,7 @@ const balancoReceita = document.querySelector('#balanco-receita');
 const balancoDespesa = document.querySelector('#balanco-despesa');
 const balancoBalanco = document.querySelector('#balanco-balanco');
 const listaGastos = document.querySelector('#lista-gastos');
+const botaoLimparTudo = document.querySelector('#limpar-tudo');
 
 //---------------------------
 
@@ -35,6 +36,10 @@ class Receita extends Orcamento {
         this.quantia += novoValor;
         return this.quantia;
     }
+
+    limparReceita() {
+        this.quantia = 0;
+    }
 }
 
 class Despesa extends Orcamento {
@@ -48,6 +53,11 @@ class Despesa extends Orcamento {
         this.lista.push({ tipo, valor }); // Adiciona a despesa à lista
         return { tipo, valor };
     }
+
+    limparDespesa() {
+        this.quantia = 0
+        this.lista = [];
+    }
 }
 
 class Balanco {
@@ -59,6 +69,11 @@ class Balanco {
     calcularBalanco() {
         return this.receita - this.despesa;
     }
+
+    limparBalanco() {
+        this.receita = 0;
+        this.despesa = 0;
+    }
 }
 
 const receita = new Receita(0);
@@ -68,7 +83,7 @@ const balancoObj = new Balanco(receita.quantia, despesa.quantia);
 const atualizarBalanco = () => {
     balancoObj.receita = receita.quantia;
     balancoObj.despesa = despesa.quantia;
-    balancoBalanco.innerHTML = balancoObj.calcularBalanco();
+    balancoBalanco.innerHTML = `$${balancoObj.calcularBalanco().toFixed(2)}` ;
 }
 
 const atualizarTabela = (tipo, valor) => {
@@ -92,7 +107,7 @@ const atualizarTabela = (tipo, valor) => {
 
 botaoRegistrarReceita.addEventListener('click', () => {
     let totalReceita = receita.registrarReceita();
-    balancoReceita.innerHTML = totalReceita;
+    balancoReceita.innerHTML = totalReceita.toFixed(2);
     receitaQuantia.value = ''; 
     atualizarBalanco();
 })
@@ -107,9 +122,22 @@ botaoRegistrarDespesa.addEventListener('click', () => {
     }
 
     let novaDespesa = despesa.registrarDespesa(tipoDespesa, valorDespesa);
-    balancoDespesa.innerHTML = despesa.quantia; // Total de despesas
+    balancoDespesa.innerHTML = despesa.quantia.toFixed(2); // Total de despesas
     descricaoDespesa.value = '';
     despesaQuantia.value = '';
     atualizarBalanco();
     atualizarTabela(novaDespesa.tipo, novaDespesa.valor);
 });
+
+botaoLimparTudo.addEventListener('click', () => {
+    listaGastos.innerHTML = '';
+    receita.limparReceita();
+    despesa.limparDespesa();
+    balancoObj.limparBalanco();
+    atualizarBalanco();
+    balancoReceita.innerHTML = '0';
+    balancoDespesa.innerHTML = '0';
+    receitaQuantia.value = '';
+    descricaoDespesa.value = '';
+    despesaQuantia.value = '';
+})
