@@ -66,13 +66,32 @@ class Despesa extends Orcamento {
     }
 }
 
+class Balanco {
+    constructor(receita, despesa) {
+        this.receita = receita;
+        this.despesa = despesa;        
+    }
+
+    calcularBalanco() {
+        return this.receita - this.despesa;
+    }
+}
+
 const receita = new Receita(0);
 const despesa = new Despesa(0);
+const balancoObj = new Balanco(receita.quantia, despesa.quantia);
+
+const atualizarBalanco = () => {
+    balancoObj.receita = receita.quantia;
+    balancoObj.despesa = despesa.quantia;
+    balancoBalanco.innerHTML = balancoObj.calcularBalanco();
+}
 
 botaoRegistrarReceita.addEventListener('click', () => {
     let totalReceita = receita.registrarReceita();
     balancoReceita.innerHTML = totalReceita;
-    receitaQuantia.value = '';    
+    receitaQuantia.value = ''; 
+    atualizarBalanco();
 })
 
 botaoRegistrarDespesa.addEventListener('click', () => {
@@ -80,4 +99,7 @@ botaoRegistrarDespesa.addEventListener('click', () => {
     balancoDespesa.innerHTML = totalDespesa;
     descricaoDespesa.value = '';
     despesaQuantia.value = '';
+    atualizarBalanco();
 })
+
+
