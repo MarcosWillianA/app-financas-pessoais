@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/estilo.css">
     <title>Orçamento Pessoais</title>
 </head>
@@ -18,15 +19,15 @@
             <section>
                 <div class="receita-despesa" id="receita">
                     <h2>Receita</h2>
-                    <input type="number" name="receita" id="receita-quantia">
+                    <input type="number" name="receita" id="receita-quantia" placeholder="Insira a quantia da receita"><br>
                     <button class="botao" id="registrar-receita">Registrar receita</button>
                 </div>
             </section>
             <section>
                 <div class="receita-despesa" id="despesa">
                     <h2>Despesas</h2>
-                    <input type="text" name="descricao-despesa" id="descricao-despesa">
-                    <input type="number" name="despesa-quantia" id="despesa-quantia">
+                    <input type="text" name="descricao-despesa" id="descricao-despesa" placeholder="Insira o tipo de despesa"><br>
+                    <input type="number" name="despesa-quantia" id="despesa-quantia" placeholder="Insira a quantia da despesa"><br>
                     <button class="botao" id="registrar-despesa">Registrar despesa</button>
                 </div>
             </section>
@@ -41,6 +42,7 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <!-- Aqui o balanço será inserido dinamicamente-->
                             <td>0</td>
                             <td>0</td>
                             <td>0</td>
@@ -51,6 +53,14 @@
             <section>
                 <div id="gastos">
                     <h2>Lista de gastos</h2>
+                    <table id="lista-gastos">
+                        <tr>
+                            <td>Lorem Ipsum</td>
+                            <td>$123</td>
+                            <td><i class="fa-solid fa-pen-to-square"></i></td>
+                            <td><i class="fa-solid fa-trash-can"></i></td>
+                        </tr>
+                    </table>
                 </div>
             </section>
         </div>
