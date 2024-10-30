@@ -112,9 +112,15 @@ const atualizarTabela = () => {
         excluirGasto = document.createElement('td');
 
         listaGastos.appendChild(novaLinha);
-        novaLinha.appendChild(novoTipo, novaQuantia, editarGasto, excluirGasto);
+        novaLinha.appendChild(novoTipo);
+        novaLinha.appendChild(novaQuantia);
+        novaLinha.appendChild(editarGasto);
+        novaLinha.appendChild(excluirGasto);
 
-        
+        novoTipo.innerHTML = listaGastosObj.tipo;
+        novaQuantia.innerHTML = `$${listaGastosObj.quantia}`;
+        editarGasto.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>'
+        excluirGasto.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
 }
 
 botaoRegistrarReceita.addEventListener('click', () => {
@@ -130,6 +136,7 @@ botaoRegistrarDespesa.addEventListener('click', () => {
     descricaoDespesa.value = '';
     despesaQuantia.value = '';
     atualizarBalanco();
+    atualizarTabela();
 })
 
 
