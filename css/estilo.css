@@ -55,7 +55,7 @@ input {
 .botao {
     display: block;
     margin: auto;
-    padding: 5px;
+    padding: 5px 10px;
     border: none;
     border-radius: 10px;
     background-color: #0ea5e9;
@@ -63,11 +63,12 @@ input {
 }
 
 .botao:active {
-    background: #0ea5e9;
+    background: #0369a1;
 }
 
 #balanco {
     width: 100%;
+    padding: 5px;
     border-radius: 5px;
     background-color: #0ea5e9;
     color: #fff;
@@ -78,6 +79,7 @@ input {
 }
 
 #gastos {
+    padding: 10px 0;
     border-radius: 5px;
     box-shadow: -3px 3px 10px rgba(0, 0, 0, .3);
     background-color: #fff;
@@ -85,6 +87,7 @@ input {
 
 #lista-gastos {
     width: 100%;
+    margin-bottom: 10px;
 }
 
 #lista-gastos tr {
@@ -106,6 +109,7 @@ input {
 #lista-gastos td:nth-child(3), #lista-gastos td:nth-child(4) {
     text-align: left;
     text-indent: none;
+    color: #0ea5e9;
 }
 
 footer p {
