@@ -8,7 +8,6 @@ const balancoReceita = document.querySelector('#balanco-receita');
 const balancoDespesa = document.querySelector('#balanco-despesa');
 const balancoBalanco = document.querySelector('#balanco-balanco');
 const listaGastos = document.querySelector('#lista-gastos');
-const limparTudo = document.querySelector('#limpar-tudo');
 
 //---------------------------
 
@@ -27,7 +26,7 @@ class Receita extends Orcamento {
         super(quantia);
     }
 
-    registrarReceita () {
+    registrarReceita() {
         let novoValor = parseFloat(receitaQuantia.value);
         if (isNaN(novoValor) || receitaQuantia.value === '') {
             alert('Quantia da receita está faltando');
@@ -39,37 +38,22 @@ class Receita extends Orcamento {
 }
 
 class Despesa extends Orcamento {
-    constructor(quantia, tipo) {
-        super(quantia);
-        this.tipo = tipo;
+    constructor() {
+        super(0);
+        this.lista = []; // Inicializa uma lista para as despesas
     }
 
-    registrarDespesa() {
-        let tipoDespesa = descricaoDespesa.value;
-        if (descricaoDespesa.value === '') {
-            alert('Nome da despesa está faltando');
-            return '';
-        }
-        this.tipo = tipoDespesa;
-
-        let novoValor = parseFloat(despesaQuantia.value);
-        if (isNaN(novoValor) || despesaQuantia.value === '') {
-            alert('Quantia da despesa está faltando');
-            return 0;
-        } 
-        
-        this.quantia += novoValor;
-        return {
-            tipo: this.tipo,
-            quantia: this.quantia
-        };
+    registrarDespesa(tipo, valor) {
+        this.quantia += valor; // Soma ao total
+        this.lista.push({ tipo, valor }); // Adiciona a despesa à lista
+        return { tipo, valor };
     }
 }
 
 class Balanco {
     constructor(receita, despesa) {
         this.receita = receita;
-        this.despesa = despesa;        
+        this.despesa = despesa;
     }
 
     calcularBalanco() {
@@ -77,23 +61,9 @@ class Balanco {
     }
 }
 
-class ListaDeGastos {
-    constructor(tipo, quantia) {
-        this.tipo = tipo;
-        this.quantia = quantia;
-    }
-
-
-    registrarGasto(tipo, quantia) {
-        tipo = this.tipo;
-        quantia = this.quantia;
-    }
-}
-
 const receita = new Receita(0);
-const despesa = new Despesa(0);
+const despesa = new Despesa();
 const balancoObj = new Balanco(receita.quantia, despesa.quantia);
-const listaGastosObj = new ListaDeGastos (despesa.tipo, despesa.quantia);
 
 const atualizarBalanco = () => {
     balancoObj.receita = receita.quantia;
@@ -101,26 +71,23 @@ const atualizarBalanco = () => {
     balancoBalanco.innerHTML = balancoObj.calcularBalanco();
 }
 
-const atualizarTabela = () => {
-    listaGastosObj.tipo = despesa.tipo;
-    listaGastosObj.quantia = despesa.quantia;
+const atualizarTabela = (tipo, valor) => {
+    const novaLinha = document.createElement('tr');
+    const novoTipo = document.createElement('td');
+    const novaQuantia = document.createElement('td');
+    const editarGasto = document.createElement('td');
+    const excluirGasto = document.createElement('td');
 
-    novaLinha = document.createElement('tr');
-        novoTipo = document.createElement('td')
-        novaQuantia = document.createElement('td');
-        editarGasto = document.createElement('td');
-        excluirGasto = document.createElement('td');
+    listaGastos.appendChild(novaLinha);
+    novaLinha.appendChild(novoTipo);
+    novaLinha.appendChild(novaQuantia);
+    novaLinha.appendChild(editarGasto);
+    novaLinha.appendChild(excluirGasto);
 
-        listaGastos.appendChild(novaLinha);
-        novaLinha.appendChild(novoTipo);
-        novaLinha.appendChild(novaQuantia);
-        novaLinha.appendChild(editarGasto);
-        novaLinha.appendChild(excluirGasto);
-
-        novoTipo.innerHTML = listaGastosObj.tipo;
-        novaQuantia.innerHTML = `$${listaGastosObj.quantia}`;
-        editarGasto.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>'
-        excluirGasto.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
+    novoTipo.innerHTML = tipo;
+    novaQuantia.innerHTML = `$${valor.toFixed(2)}`;
+    editarGasto.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
+    excluirGasto.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
 }
 
 botaoRegistrarReceita.addEventListener('click', () => {
@@ -131,12 +98,18 @@ botaoRegistrarReceita.addEventListener('click', () => {
 })
 
 botaoRegistrarDespesa.addEventListener('click', () => {
-    let totalDespesa = despesa.registrarDespesa().quantia;
-    balancoDespesa.innerHTML = totalDespesa;
+    let tipoDespesa = descricaoDespesa.value;
+    let valorDespesa = parseFloat(despesaQuantia.value);
+    
+    if (isNaN(valorDespesa) || despesaQuantia.value === '' || tipoDespesa === '') {
+        alert('Por favor, preencha o tipo e a quantia da despesa');
+        return;
+    }
+
+    let novaDespesa = despesa.registrarDespesa(tipoDespesa, valorDespesa);
+    balancoDespesa.innerHTML = despesa.quantia; // Total de despesas
     descricaoDespesa.value = '';
     despesaQuantia.value = '';
     atualizarBalanco();
-    atualizarTabela();
-})
-
-
+    atualizarTabela(novaDespesa.tipo, novaDespesa.valor);
+});
