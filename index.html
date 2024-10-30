@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+    <title>Orçamento Pessoais</title>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Orçamento Pessoal</h1>
+        </header>
+        <div id="container">
+            <section>
+                <div class="receita-despesa" id="receita">
+                    <h2>Receita</h2>
+                    <input type="number" name="receita" id="receita-quantia">
+                    <button class="botao" id="registrar-receita">Registrar receita</button>
+                </div>
+            </section>
+            <section>
+                <div class="receita-despesa" id="despesa">
+                    <h2>Despesas</h2>
+                    <input type="text" name="descricao-despesa" id="descricao-despesa">
+                    <input type="number" name="despesa-quantia" id="despesa-quantia">
+                    <button class="botao" id="registrar-despesa">Registrar despesa</button>
+                </div>
+            </section>
+            <section>
+                <table id="balanco">
+                    <thead>
+                        <tr>
+                            <th>Receitas</th>
+                            <th>Despesas</th>
+                            <th>Balanço</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section>
+                <div id="gastos">
+                    <h2>Lista de gastos</h2>
+                </div>
+            </section>
+        </div>
+        <footer>
+            <p>App criado por Marcos Willian</p>
+        </footer>
+    </main>
+    <script src="script/app.js"></script>
+</body>
+</html>
