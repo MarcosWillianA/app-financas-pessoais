@@ -77,14 +77,44 @@ class Balanco {
     }
 }
 
+class ListaDeGastos {
+    constructor(tipo, quantia) {
+        this.tipo = tipo;
+        this.quantia = quantia;
+    }
+
+
+    registrarGasto(tipo, quantia) {
+        tipo = this.tipo;
+        quantia = this.quantia;
+    }
+}
+
 const receita = new Receita(0);
 const despesa = new Despesa(0);
 const balancoObj = new Balanco(receita.quantia, despesa.quantia);
+const listaGastosObj = new ListaDeGastos (despesa.tipo, despesa.quantia);
 
 const atualizarBalanco = () => {
     balancoObj.receita = receita.quantia;
     balancoObj.despesa = despesa.quantia;
     balancoBalanco.innerHTML = balancoObj.calcularBalanco();
+}
+
+const atualizarTabela = () => {
+    listaGastosObj.tipo = despesa.tipo;
+    listaGastosObj.quantia = despesa.quantia;
+
+    novaLinha = document.createElement('tr');
+        novoTipo = document.createElement('td')
+        novaQuantia = document.createElement('td');
+        editarGasto = document.createElement('td');
+        excluirGasto = document.createElement('td');
+
+        listaGastos.appendChild(novaLinha);
+        novaLinha.appendChild(novoTipo, novaQuantia, editarGasto, excluirGasto);
+
+        
 }
 
 botaoRegistrarReceita.addEventListener('click', () => {
