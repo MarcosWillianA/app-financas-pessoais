@@ -141,12 +141,15 @@ const atualizarTabela = (tipo, valor) => {
         const index = despesa.lista.findIndex(item => item.valor === valorDespesa && item.tipo === tipoDespesa);
         if (index !== -1) {
             despesa.lista.splice(index, 1);
+            despesa.quantia -= valorDespesa;
+            balancoDespesa.innerHTML = despesa.quantia.toFixed(2); 
+            listaGastos.removeChild(novaLinha);
+            despesa.salvarNoLocalStorage();
+            atualizarBalanco();
+        } else {
+            alert('Erro ao remover despesa');
         }
-        despesa.quantia -= valorDespesa;
-        balancoDespesa.innerHTML = despesa.quantia.toFixed(2); 
-        listaGastos.removeChild(novaLinha);
-        despesa.salvarNoLocalStorage();
-        atualizarBalanco();
+        
     }); 
 }
 
